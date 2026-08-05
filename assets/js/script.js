@@ -5,19 +5,118 @@
   /* ---- Mobile navigation ---- */
   var toggle = document.querySelector(".nav-toggle");
   var links = document.querySelector(".nav-links");
+  var menuOpen = false;
+
+  function setMenu(open) {
+    if (!toggle || !links) return;
+    menuOpen = open;
+    links.classList.toggle("open", open);
+    toggle.classList.toggle("open", open);
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    document.body.style.overflow = open ? "hidden" : "";
+    updateMobileCta();
+  }
+
   if (toggle && links) {
     toggle.addEventListener("click", function () {
-      var open = links.classList.toggle("open");
-      toggle.classList.toggle("open", open);
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      setMenu(!menuOpen);
     });
     links.querySelectorAll("a").forEach(function (a) {
       a.addEventListener("click", function () {
-        links.classList.remove("open");
-        toggle.classList.remove("open");
-        toggle.setAttribute("aria-expanded", "false");
+        setMenu(false);
       });
     });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && menuOpen) {
+        setMenu(false);
+        toggle.focus();
+      }
+    });
+  }
+
+  /* ---- Sticky mobile CTA ----
+     Appears once the hero has scrolled past, hides again while the form is
+     on screen (and while the menu is open). */
+  var mobileCta = document.querySelector(".mobile-cta");
+  var contact = document.querySelector("#kontakt");
+  var contactVisible = false;
+  var scrolledPastHero = false;
+
+  function updateMobileCta() {
+    if (!mobileCta) return;
+    mobileCta.classList.toggle(
+      "show",
+      scrolledPastHero && !contactVisible && !menuOpen
+    );
+  }
+
+  if (mobileCta) {
+    var onScroll = function () {
+      scrolledPastHero = window.scrollY > 280;
+      updateMobileCta();
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    if (contact && "IntersectionObserver" in window) {
+      new IntersectionObserver(
+        function (entries) {
+          contactVisible = entries[0].isIntersecting;
+          updateMobileCta();
+        },
+        { threshold: 0.12 }
+      ).observe(contact);
+    }
+  }
+
+  /* ---- Testimonial carousel indicators (phones) ----
+     The quotes grid becomes a horizontal snap-scroller under 720px. Dots show
+     how many references there are and which one you're on. Built in JS so the
+     markup stays clean and the carousel still swipes without it. */
+  var quotes = document.querySelector(".quotes");
+  var cards = quotes ? [].slice.call(quotes.querySelectorAll(".quote")) : [];
+  if (quotes && cards.length > 1) {
+    var dotsWrap = document.createElement("div");
+    dotsWrap.className = "quotes-dots";
+    dotsWrap.setAttribute("role", "tablist");
+    dotsWrap.setAttribute("aria-label", "Reference");
+
+    cards.forEach(function (card, i) {
+      var dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "quotes-dot";
+      dot.setAttribute("aria-label", "Reference " + (i + 1) + " z " + cards.length);
+      dot.addEventListener("click", function () {
+        quotes.scrollTo({
+          left: card.offsetLeft - cards[0].offsetLeft,
+          behavior: "smooth",
+        });
+      });
+      dotsWrap.appendChild(dot);
+    });
+    quotes.insertAdjacentElement("afterend", dotsWrap);
+
+    var dots = [].slice.call(dotsWrap.children);
+    var syncDots = function () {
+      var mid = quotes.scrollLeft + quotes.clientWidth / 2;
+      var active = 0;
+      var closest = Infinity;
+      cards.forEach(function (card, i) {
+        var center =
+          card.offsetLeft - cards[0].offsetLeft + card.offsetWidth / 2;
+        var dist = Math.abs(center - mid);
+        if (dist < closest) {
+          closest = dist;
+          active = i;
+        }
+      });
+      dots.forEach(function (dot, i) {
+        dot.setAttribute("aria-current", i === active ? "true" : "false");
+      });
+    };
+    quotes.addEventListener("scroll", syncDots, { passive: true });
+    window.addEventListener("resize", syncDots);
+    syncDots();
   }
 
   /* ---- FAQ accordion ---- */
@@ -64,11 +163,15 @@
         if (!res.ok) throw new Error("HTTP " + res.status);
 
         poptavka.style.display = "none";
-        document.querySelector("#cfSuccess").style.display = "block";
+        var success = document.querySelector("#cfSuccess");
+        success.style.display = "block";
+        // on a phone the form vanishes mid-screen — bring the confirmation to the user
+        success.scrollIntoView({ behavior: "smooth", block: "center" });
       } catch (err) {
         errorDiv.style.display = "block";
         btn.disabled = false;
         btn.textContent = "Odeslat";
+        errorDiv.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     });
   }

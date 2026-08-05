@@ -21,7 +21,12 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* anchor targets clear the sticky header */
+  scroll-padding-top: 92px;
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
   margin: 0;
@@ -34,7 +39,18 @@ body {
 }
 
 img { max-width: 100%; display: block; }
-a { color: inherit; text-decoration: none; }
+a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: rgba(220, 97, 82, .18); }
+button { -webkit-tap-highlight-color: rgba(220, 97, 82, .18); }
+
+/* Visible keyboard focus everywhere (was missing entirely) */
+:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.page-hero :focus-visible,
+.hero :focus-visible,
+.site-footer :focus-visible { outline-color: #fff; }
 
 h1, h2, h3, h4 { font-weight: 600; line-height: 1.2; margin: 0 0 .5em; }
 p { margin: 0 0 1em; }
@@ -53,11 +69,14 @@ p { margin: 0 0 1em; }
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: .5em;
   padding: .8em 1.7em;
+  min-height: 48px;
   border-radius: 999px;
   font-weight: 600;
   font-size: .98rem;
+  line-height: 1.2;
   cursor: pointer;
   border: 2px solid transparent;
   transition: transform .18s ease, background .18s ease, color .18s ease;
@@ -116,6 +135,8 @@ p { margin: 0 0 1em; }
   height: 2px; background: var(--coral); border-radius: 2px;
 }
 .nav-cta { display: flex; align-items: center; gap: 14px; }
+/* CTA repeated inside the mobile menu panel — hidden on desktop */
+.nav-menu-cta { display: none; }
 .nav-toggle {
   display: none; flex-direction: column; gap: 5px;
   background: none; border: 0; cursor: pointer; padding: 8px;
@@ -206,6 +227,9 @@ section { padding: clamp(50px, 7vw, 84px) 0; }
 /* ---------- Testimonials ---------- */
 .quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2.4vw, 26px); }
 .quote {
+  /* <figure> carries a UA default margin: 1em 40px — without this reset every
+     card sits 80px narrower than its grid track. */
+  margin: 0;
   background: var(--bg-soft);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -215,6 +239,20 @@ section { padding: clamp(50px, 7vw, 84px) 0; }
 .quote .stars { color: var(--coral); letter-spacing: 2px; margin-bottom: 14px; }
 .quote blockquote { margin: 0 0 18px; font-size: 1.02rem; line-height: 1.55; }
 .quote cite { font-style: normal; font-weight: 700; color: var(--coral-dark); margin-top: auto; }
+
+/* Carousel position indicators — built by script.js, phones only */
+.quotes-dots { display: none; }
+.quotes-dot {
+  width: 28px; height: 28px; padding: 0; border: 0; background: none;
+  display: grid; place-items: center; cursor: pointer;
+}
+.quotes-dot::before {
+  content: "";
+  width: 8px; height: 8px; border-radius: 999px;
+  background: #e3d3cb;
+  transition: width .25s ease, background .25s ease;
+}
+.quotes-dot[aria-current="true"]::before { width: 24px; background: var(--coral); }
 
 /* ---------- Page hero (subpages) — coral band ---------- */
 .page-hero {
@@ -322,38 +360,83 @@ section { padding: clamp(50px, 7vw, 84px) 0; }
 
 /* ---------- Poptávka form (scoped) ---------- */
 .cp-form * { box-sizing: border-box; margin: 0; padding: 0; }
-.cp-form { font-family: inherit; color: #1a1a1a; max-width: 720px; width: 100%; margin-inline: auto; }
+.cp-form { font-family: inherit; color: var(--ink); max-width: 720px; width: 100%; margin-inline: auto; }
 .cp-form .cf-group { margin-bottom: 1.5rem; }
-.cp-form .cf-group-label { font-size: 1rem; font-weight: 600; color: #1a1a1a; margin-bottom: 0.2rem; }
-.cp-form .cf-group-desc { font-size: 0.875rem; color: #888; margin-bottom: 0.65rem; line-height: 1.4; }
+.cp-form .cf-group-label { font-size: 1rem; font-weight: 600; color: var(--ink); margin-bottom: 0.2rem; }
+.cp-form .cf-group-desc { font-size: 0.875rem; color: var(--muted); margin-bottom: 0.65rem; line-height: 1.4; }
 .cp-form .cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 .cp-form .cf-field { display: flex; flex-direction: column; gap: 0.3rem; }
-.cp-form .cf-label { font-size: 0.825rem; color: #666; }
+.cp-form .cf-label { font-size: 0.825rem; color: var(--muted); }
 .cp-form input[type="text"],
 .cp-form input[type="email"],
 .cp-form input[type="tel"],
 .cp-form textarea {
-  background: #fceaea; border: none; border-radius: 6px; padding: 0.75rem 1rem;
-  font-size: 0.95rem; font-family: inherit; color: #1a1a1a; width: 100%;
-  transition: background 0.15s, box-shadow 0.15s; outline: none; -webkit-appearance: none;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  /* 16px minimum — anything smaller makes iOS Safari zoom in on focus */
+  font-size: 1rem;
+  line-height: 1.4;
+  font-family: inherit;
+  color: var(--ink);
+  width: 100%;
+  min-height: 52px;
+  transition: background .15s, border-color .15s, box-shadow .15s;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
-.cp-form input::placeholder, .cp-form textarea::placeholder { color: #b0a0a0; }
-.cp-form input:focus, .cp-form textarea:focus { background: #fde0e0; box-shadow: 0 0 0 2px rgba(192,57,43,0.18); }
-.cp-form textarea { resize: vertical; min-height: 110px; }
-.cp-form .cf-priority-label { font-size: 1rem; font-weight: 600; color: #1a1a1a; margin-bottom: 0.3rem; }
-.cp-form .cf-priority-desc { font-size: 0.875rem; color: #888; line-height: 1.5; margin-bottom: 0.75rem; }
-.cp-form .cf-radio { display: flex; align-items: center; gap: 0.55rem; cursor: pointer; font-size: 0.9rem; color: #333; margin-bottom: 1.5rem; }
-.cp-form .cf-radio input[type="radio"] { accent-color: #c0392b; width: 17px; height: 17px; cursor: pointer; flex-shrink: 0; }
+.cp-form input::placeholder, .cp-form textarea::placeholder { color: #b6a9a2; }
+.cp-form input:focus, .cp-form textarea:focus {
+  background: #fff;
+  border-color: var(--coral);
+  box-shadow: 0 0 0 3px rgba(220, 97, 82, .18);
+}
+.cp-form textarea { resize: vertical; min-height: 120px; }
+.cp-form .cf-priority-label { font-size: 1rem; font-weight: 600; color: var(--ink); margin-bottom: 0.3rem; }
+.cp-form .cf-priority-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.5; margin-bottom: 0.5rem; }
+/* Full-width tappable row with a soft custom checkbox, not a bare 17px control */
+.cp-form .cf-radio {
+  display: flex; align-items: center; gap: 0.8rem; cursor: pointer;
+  font-size: 0.95rem; color: var(--muted); line-height: 1.4;
+  margin-bottom: 1.5rem;
+  min-height: 52px; padding: 12px 18px;
+  border: 0; border-radius: 18px;
+  background: var(--bg-soft);
+  transition: background .2s, color .2s;
+}
+.cp-form .cf-radio:has(input:checked) { background: #fdefeb; color: var(--ink); }
+.cp-form .cf-radio input {
+  appearance: none; -webkit-appearance: none;
+  width: 24px; height: 24px; flex-shrink: 0; cursor: pointer; margin: 0;
+  border-radius: 8px;
+  border: 1.5px solid #e0d0c9;
+  background: #fff;
+  display: grid; place-items: center;
+  transition: background .2s, border-color .2s;
+}
+.cp-form .cf-radio input::after {
+  content: "";
+  width: 11px; height: 6px;
+  border-left: 2px solid #fff; border-bottom: 2px solid #fff;
+  border-radius: 1px;
+  transform: rotate(-45deg) translate(1px, -2px);
+  opacity: 0; transition: opacity .15s;
+}
+.cp-form .cf-radio input:checked { background: var(--coral); border-color: var(--coral); }
+.cp-form .cf-radio input:checked::after { opacity: 1; }
 .cp-form button[type="submit"] {
-  background: #c0392b; color: #fff; border: none; border-radius: 6px; padding: 0.75rem 2rem;
-  font-size: 0.95rem; font-weight: 600; font-family: inherit; cursor: pointer;
-  transition: background 0.15s; letter-spacing: 0.01em;
+  background: var(--coral); color: #fff; border: none; border-radius: 999px;
+  padding: 0.9rem 2.4rem; min-height: 54px;
+  font-size: 1rem; font-weight: 600; font-family: inherit; cursor: pointer;
+  transition: background .18s, transform .18s; letter-spacing: 0.01em;
 }
-.cp-form button[type="submit"]:hover { background: #a93226; }
-.cp-form button[type="submit"]:disabled { background: #ccc; cursor: not-allowed; }
-.cp-form .cf-error { display: none; color: #b91c1c; background: #fef2f2; border: 1px solid #fca5a5; border-radius: 6px; padding: 0.65rem 1rem; font-size: 0.875rem; margin-bottom: 1rem; }
-.cp-form .cf-success { display: none; padding: 2rem 0; font-size: 1rem; color: #333; line-height: 1.6; }
-.cp-form .cf-success strong { display: block; font-size: 1.15rem; margin-bottom: 0.35rem; color: #1a1a1a; }
+.cp-form button[type="submit"]:hover { background: var(--coral-dark); transform: translateY(-2px); }
+.cp-form button[type="submit"]:disabled { background: #d8ccc6; cursor: not-allowed; transform: none; }
+.cp-form .cf-error { display: none; color: #b91c1c; background: #fef2f2; border: 1px solid #fca5a5; border-radius: var(--radius-sm); padding: 0.8rem 1rem; font-size: 0.9rem; margin-bottom: 1rem; }
+.cp-form .cf-success { display: none; padding: 1.5rem 0; font-size: 1rem; color: var(--muted); line-height: 1.6; }
+.cp-form .cf-success strong { display: block; font-size: 1.2rem; margin-bottom: 0.35rem; color: var(--ink); }
 @media (max-width: 520px) { .cp-form .cf-row { grid-template-columns: 1fr; } }
 
 /* ---------- Footer ---------- */
@@ -371,9 +454,37 @@ section { padding: clamp(50px, 7vw, 84px) 0; }
   font-size: .85rem; color: rgba(255,255,255,.55);
 }
 
+/* ---------- Sticky mobile CTA (thumb zone) ---------- */
+/* Hidden on desktop; on phones it slides in past the hero and slides back
+   out once the form itself is on screen.
+   Dark bar (matching the footer) so the CTA never disappears into the
+   coral content blocks it scrolls over. */
+.mobile-cta {
+  display: none;
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 60;
+  padding: 12px clamp(18px, 5vw, 40px);
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  background: var(--ink);
+  box-shadow: 0 -14px 36px -18px rgba(42, 38, 34, .55);
+  transform: translateY(115%);
+  transition: transform .3s ease;
+}
+.mobile-cta.show { transform: none; }
+.mobile-cta .btn { width: 100%; font-size: 1rem; box-shadow: 0 6px 18px -10px rgba(0, 0, 0, .6); }
+
 /* ---------- Reveal ---------- */
 .reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
 .reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .mobile-cta { transition: none; }
+  .btn:hover, .cp-form button[type="submit"]:hover { transform: none; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
@@ -390,11 +501,117 @@ section { padding: clamp(50px, 7vw, 84px) 0; }
     box-shadow: var(--shadow); transform: translateY(-130%); transition: transform .3s ease;
   }
   .nav-links.open { transform: translateY(0); }
-  .nav-links a { width: 100%; padding: 10px 0; font-size: 1.05rem; }
+  .nav-links a { width: 100%; padding: 12px 0; font-size: 1.05rem; min-height: 48px; display: flex; align-items: center; }
   .nav-toggle { display: flex; }
-  .nav-cta .btn { display: none; }
+  /* The header CTA is replaced on phones by the in-menu button + sticky bar */
+  .nav-cta > .btn { display: none; }
   .brand .brand-name { display: none; }
   .form-row { grid-template-columns: 1fr; }
   .quotes, .cols-2, .cols-3, .photo-strip, .team-grid { grid-template-columns: 1fr; }
   .tip { grid-template-columns: 1fr; gap: 14px; }
+}
+
+/* ============================================================
+   Phone refinements — shorten the path to the form
+   ============================================================ */
+@media (max-width: 720px) {
+  .mobile-cta { display: block; }
+  /* keep the sticky bar from sitting on top of the footer's last line */
+  .site-footer { padding-bottom: 104px; }
+
+  /* --- Header: bigger tap target for the hamburger --- */
+  .nav { min-height: 68px; }
+  .nav-toggle { width: 48px; height: 48px; align-items: center; justify-content: center; padding: 0; }
+  .nav-links { inset: 68px 0 auto 0; max-height: calc(100dvh - 68px); overflow-y: auto; }
+  /* CTA promoted into the open menu */
+  .nav-menu-cta { display: block; width: 100%; margin-top: 14px; }
+  .nav-menu-cta .btn { width: 100%; }
+
+  /* --- Hero: tall enough that the photo reads as a photo ---
+     The image is 3:2, so at phone proportions `cover` shows its full height and
+     crops the sides — meaning faces sit at a fixed fraction of the hero height,
+     not a fixed pixel offset. A short hero pulls the subject up behind the
+     buttons; this height drops her clear of them. */
+  /* Floor of 580px keeps the subject below the buttons on short phones (SE),
+     where 78svh alone would be too small. */
+  .hero { min-height: clamp(580px, 78vh, 660px); }
+  @supports (height: 1svh) {
+    .hero { min-height: clamp(580px, 78svh, 660px); }
+  }
+  .hero .container {
+    padding-top: 30px;
+    padding-bottom: calc(24px + clamp(40px, 6vw, 90px));
+  }
+  .hero h1 { margin-bottom: .35em; }
+  /* Render the photo taller than the hero and pin it to the top. The stacked
+     buttons end at a roughly fixed offset (~345px) on every phone, while the
+     subject sits at a fixed *fraction* of the image — so height alone can't
+     clear her on short screens. Overscaling pushes her down the frame instead,
+     which holds on a 667px SE and a 932px Pro Max alike. The bottom of the
+     source is out-of-focus foreground, so nothing is lost by cropping it. */
+  .hero img.hero-bg { height: 132%; bottom: auto; }
+
+  /* Weight the scrim to the top half so the type stays legible while the lower
+     half of the photo — where the subject is — keeps its contrast. */
+  .hero::before {
+    background: linear-gradient(180deg,
+      rgba(0, 0, 0, .58) 0%,
+      rgba(0, 0, 0, .44) 30%,
+      rgba(0, 0, 0, .14) 56%,
+      rgba(0, 0, 0, .18) 100%);
+  }
+  .hero h1 { font-size: clamp(1.75rem, 7.4vw, 2.3rem); max-width: 20ch; }
+  .hero .hero-actions { flex-direction: column; align-items: stretch; gap: 12px; margin-top: 18px; }
+  .hero .hero-actions .btn { width: 100%; }
+
+  /* --- Alternating blocks: keep the text/photo rhythm when stacked ---
+     DOM order is text,photo,photo,text,text,photo,photo,text — collapsing to
+     one column would put two photos and two texts back to back. */
+  .blocks > *:nth-child(3) { order: 4; }
+  .blocks > *:nth-child(4) { order: 3; }
+  .blocks > *:nth-child(7) { order: 8; }
+  .blocks > *:nth-child(8) { order: 7; }
+  /* shorter photos = less scrolling between the pitch and the form */
+  .block.photo { aspect-ratio: 3 / 2; }
+  .block.photo img { min-height: 0; }
+  .block { min-height: 0; }
+  .block.text { padding: 26px 22px; }
+  .block.text p { font-size: 1rem; }
+
+  /* --- Testimonials: swipeable instead of three tall stacked cards --- */
+  .quotes {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    /* viewport-based, not %, so it resolves against the screen rather than the
+       scroll container's intrinsic width — wide card, small peek */
+    grid-auto-columns: calc(100vw - 74px);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline-start: clamp(18px, 5vw, 40px);
+    gap: 12px;
+    /* bleed to the screen edges so the peek is visible */
+    margin-inline: calc(-1 * clamp(18px, 5vw, 40px));
+    padding: 4px clamp(18px, 5vw, 40px) 10px;
+    scrollbar-width: none;
+  }
+  .quotes::-webkit-scrollbar { display: none; }
+  .quote { scroll-snap-align: start; padding: 24px 22px 22px; }
+  .quote blockquote { font-size: 1rem; margin-bottom: 14px; }
+  .quotes-dots { display: flex; justify-content: center; align-items: center; gap: 4px; margin-top: 6px; }
+
+  /* --- Contact section: the destination --- */
+  .contact { padding-top: 44px; }
+  #kontakt { scroll-margin-top: 80px; }
+  .contact .section-head { margin-bottom: 26px; }
+  .contact .section-head h2 { font-size: 1.5rem; }
+  .form-card { padding: 22px 18px 26px; border-radius: var(--radius-sm); }
+  .cp-form button[type="submit"] { width: 100%; }
+  .cp-form .cf-group { margin-bottom: 1.25rem; }
+
+  /* --- Misc --- */
+  .places { gap: 10px; }
+  .place { padding: 9px 16px; font-size: .92rem; }
+  .team-section-title { margin: 34px 0 18px; font-size: 1.3rem; }
+  .footer-bottom { flex-direction: column; gap: 6px; }
 }
