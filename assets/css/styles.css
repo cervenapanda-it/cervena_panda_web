@@ -193,6 +193,23 @@ section { padding: clamp(50px, 7vw, 84px) 0; }
 .section-head h2 { font-size: clamp(1.7rem, 3.6vw, 2.5rem); }
 .lead { font-size: 1.1rem; color: var(--muted); }
 
+/* ---------- Video ---------- */
+.video-wrap {
+  margin-top: 28px;
+  max-width: 960px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #000;
+  box-shadow: var(--shadow-sm);
+}
+.video-wrap video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
 /* ---------- Alternating coral blocks + photos ---------- */
 .blocks { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2.4vw, 26px); }
 .block {
