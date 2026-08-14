@@ -327,7 +327,38 @@ section { padding: clamp(50px, 7vw, 84px) 0; }
 .member .body { padding: 22px 22px 26px; }
 .member h4 { font-size: 1.15rem; margin-bottom: .2em; }
 .member .role { color: var(--coral); font-weight: 600; font-size: .82rem; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 12px; }
-.member p { color: var(--muted); font-size: .92rem; margin: 0; }
+.member p {
+  color: var(--muted);
+  font-size: .92rem;
+  margin: 0;
+  min-height: calc(4 * 1.6em);
+}
+
+/* Long bios collapse to 4 lines with a "show more" toggle (added by JS only for long texts) */
+.member .body.has-toggle p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+.member .body.has-toggle.open p {
+  display: block;
+  min-height: 0;
+  -webkit-line-clamp: unset;
+}
+.bio-toggle {
+  margin-top: 12px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--coral);
+  cursor: pointer;
+}
+.bio-toggle::after { content: " ▾"; }
+.member .body.open .bio-toggle::after { content: " ▴"; }
 
 /* ---------- Tips ---------- */
 .tips { max-width: 880px; margin-inline: auto; display: grid; gap: clamp(16px, 2vw, 22px); }

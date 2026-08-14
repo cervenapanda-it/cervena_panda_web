@@ -131,6 +131,27 @@
     });
   });
 
+  /* ---- Member bio collapse (teachers page) ----
+     Long bios are clamped to 4 lines; a toggle reveals the full text.
+     Short bios are left untouched (no button, no clamping). */
+  var BIO_LIMIT = 300;
+  document.querySelectorAll(".member .body p").forEach(function (p) {
+    if (p.textContent.trim().length <= BIO_LIMIT) return;
+    var card = p.parentElement;
+    card.classList.add("has-toggle");
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "bio-toggle";
+    btn.textContent = "Zobrazit více";
+    btn.setAttribute("aria-expanded", "false");
+    btn.addEventListener("click", function () {
+      var isOpen = card.classList.toggle("open");
+      btn.textContent = isOpen ? "Zobrazit méně" : "Zobrazit více";
+      btn.setAttribute("aria-expanded", String(isOpen));
+    });
+    card.appendChild(btn);
+  });
+
   /* ---- Poptávka form (posts to n8n webhook) ---- */
   var WEBHOOK_URL = "https://n8n-production-9b68.up.railway.app/webhook/poptavka";
   var poptavka = document.querySelector("#poptavkaForm");
