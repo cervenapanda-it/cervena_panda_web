@@ -197,6 +197,29 @@
     });
   }
 
+  /* ---- Video play overlay (Jak učíme) ----
+     Native controls are hidden until the user clicks the styled play button.
+     Clicking starts playback and reveals the standard browser controls. */
+  var videoWrap = document.querySelector(".video-wrap");
+  if (videoWrap) {
+    var video = videoWrap.querySelector("video");
+    var playBtn = videoWrap.querySelector(".video-play");
+    if (video && playBtn) {
+      var startVideo = function () {
+        if (!video.paused && !playBtn.hidden) return;
+        video.controls = true;
+        var p = video.play();
+        if (p && p.catch) p.catch(function () {});
+        videoWrap.classList.add("played");
+        playBtn.hidden = true;
+      };
+      playBtn.addEventListener("click", startVideo);
+      video.addEventListener("click", function () {
+        if (video.paused && !playBtn.hidden) startVideo();
+      });
+    }
+  }
+
   /* ---- Scroll reveal ---- */
   var reveals = document.querySelectorAll(".reveal");
   if ("IntersectionObserver" in window && reveals.length) {

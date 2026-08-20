@@ -195,6 +195,7 @@ section { padding: clamp(50px, 7vw, 84px) 0; }
 
 /* ---------- Video ---------- */
 .video-wrap {
+  position: relative;
   margin-top: 28px;
   max-width: 960px;
   border-radius: var(--radius);
@@ -208,6 +209,68 @@ section { padding: clamp(50px, 7vw, 84px) 0; }
   height: auto;
   aspect-ratio: 16 / 9;
   background: #000;
+}
+.video-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 45%, rgba(0,0,0,.38));
+  transition: opacity .35s;
+}
+.video-wrap.played::after { opacity: 0; }
+.video-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: clamp(64px, 10vw, 92px);
+  height: clamp(64px, 10vw, 92px);
+  border: none;
+  border-radius: 50%;
+  background: var(--coral);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 12px 32px rgba(0,0,0,.35);
+  transition: background .2s, transform .2s;
+  animation: videoPlayGlow 2.8s ease-in-out infinite;
+}
+.video-play svg { margin-left: 3px; }
+.video-play::before,
+.video-play::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2.5px solid rgba(255,255,255,.65);
+  transform: scale(1);
+  opacity: 0;
+  animation: videoPlayRipple 2.8s ease-out infinite;
+  pointer-events: none;
+}
+.video-play::after { animation-delay: 1.4s; }
+.video-play:hover { background: var(--coral-dark); transform: translate(-50%, -50%) scale(1.08); }
+.video-play:hover::before,
+.video-play:hover::after { animation-play-state: paused; }
+.video-play:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+.video-play[hidden] { display: none; }
+
+@keyframes videoPlayGlow {
+  0%, 100% { box-shadow: 0 12px 32px rgba(0,0,0,.35); }
+  50% { box-shadow: 0 12px 48px rgba(236,100,80,.55), 0 0 0 rgba(220,97,82,0); }
+}
+@keyframes videoPlayRipple {
+  0% { transform: scale(1); opacity: .85; }
+  70%, 100% { transform: scale(1.9); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .video-play,
+  .video-play::before,
+  .video-play::after { animation: none; }
 }
 
 /* ---------- Alternating coral blocks + photos ---------- */
