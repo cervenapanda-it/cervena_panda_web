@@ -1,0 +1,14 @@
+{
+  "name": "Červená panda — přípravné kurzy",
+  "short_name": "Červená panda",
+  "icons": [
+    { "src": "assets/img/favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "assets/img/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "assets/img/og-image.jpg", "sizes": "1200x630", "type": "image/jpeg" }
+  ],
+  "theme_color": "#dc6152",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "lang": "cs",
+  "start_url": "/"
+}

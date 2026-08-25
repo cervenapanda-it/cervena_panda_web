@@ -5,22 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Červená panda — přípravné kurzy na střední školy</title>
   <meta name="description" content="Naše přípravné kurzy jsou určené pro studenty 9. tříd. Doučujeme kombinaci češtiny a matematiky. Pojďte do toho s námi.">
-  <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="canonical" href="https://cervenapanda.com/">
+  <meta name="theme-color" content="#dc6152">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="cs_CZ">
+  <meta property="og:url" content="https://cervenapanda.com/">
+  <meta property="og:title" content="Červená panda — přípravné kurzy na střední školy">
+  <meta property="og:description" content="Přípravné kurzy pro 9. třídy: čeština a matematika, 16 týdnů, 10 testů nanečisto, 98 % úspěšnost.">
+  <meta property="og:image" content="https://cervenapanda.com/assets/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Červená panda — přípravné kurzy na střední školy">
+  <meta name="twitter:description" content="Přípravné kurzy pro 9. třídy: čeština a matematika, 16 týdnů, 10 testů nanečisto.">
+  <meta name="twitter:image" content="https://cervenapanda.com/assets/img/og-image.jpg">
+  <link rel="icon" href="assets/img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preload" href="assets/fonts/poppins-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/poppins-latin-700.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" as="image" href="assets/img/extra-1-1600.webp" imagesrcset="assets/img/extra-1-800.webp 800w, assets/img/extra-1-1600.webp 1600w, assets/img/extra-1.webp 2500w" imagesizes="100vw" fetchpriority="high">
+  <link rel="stylesheet" href="assets/css/fonts.css">
   <link rel="stylesheet" href="assets/css/styles.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Červená panda — přípravné kurzy, s.r.o","url":"https://cervenapanda.com/","logo":"https://cervenapanda.com/assets/img/logo.webp","email":"info@cervenapanda.com","telephone":"+420721964682","address":{"@type":"PostalAddress","streetAddress":"Zahořanská 171","addressLocality":"Beroun","postalCode":"26601","addressCountry":"CZ"},"sameAs":[]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Přípravný kurz na přijímací zkoušky (český jazyk a matematika)","description":"16 týdnů systematické přípravy, 10 testů nanečisto CERMAT, individuální konzultace 1 na 1.","provider":{"@type":"Organization","name":"Červená panda","url":"https://cervenapanda.com/"},"hasCourseInstance":{"@type":"CourseInstance","courseMode":"onsite","location":[{"@type":"Place","name":"Gymnázium Joachima Barranda, Beroun"},{"@type":"Place","name":"Gymnázium Jana Keplera, Praha 6"},{"@type":"Place","name":"Gymnázium Luďka Pika, Plzeň"},{"@type":"Place","name":"SPgŠ a SOŠ, Kladno"},{"@type":"Place","name":"Obchodní akademie, Příbram"}]}}</script>
 </head>
 <body>
+  <a href="#main" class="skip-link">Přeskočit na obsah</a>
 
   <!-- ===== Header ===== -->
   <header class="site-header">
     <nav class="container nav" aria-label="Hlavní navigace">
       <a href="index.html" class="brand">
-        <img src="assets/img/logo.png" alt="Červená panda — přípravné kurzy na SŠ">
+        <img src="assets/img/logo.webp" alt="Červená panda — přípravné kurzy na SŠ" width="300" height="352" decoding="async">
       </a>
-      <ul class="nav-links">
-        <li><a href="index.html" class="active">Domů</a></li>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="active" aria-current="page">Domů</a></li>
         <li><a href="jak-ucime.html">Jak učíme</a></li>
         <li><a href="tipy-na-prijimacky.html">Tipy, jak na přijímačky</a></li>
         <li><a href="caste-dotazy.html">Časté dotazy</a></li>
@@ -29,19 +51,19 @@
       </ul>
       <div class="nav-cta">
         <a href="#kontakt" class="btn btn-primary">Nezávazný formulář</a>
-        <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
           <span></span><span></span><span></span>
         </button>
       </div>
     </nav>
   </header>
 
-  <main>
+  <main id="main">
     <!-- ===== Hero ===== -->
     <section class="hero">
-      <img class="hero-bg" src="assets/img/extra-1.jpeg" alt="Studenti ve třídě přípravného kurzu">
+      <img class="hero-bg" src="assets/img/extra-1-1600.webp" srcset="assets/img/extra-1-800.webp 800w, assets/img/extra-1-1600.webp 1600w, assets/img/extra-1.webp 2500w" sizes="100vw" width="2500" height="1667" fetchpriority="high" decoding="async">
       <div class="container">
-        <h1>!!Pořiď si lístek na střední školu!!</h1>
+        <h1>Pořiď si lístek na střední školu</h1>
         <div class="hero-actions">
           <a href="#kontakt" class="btn btn-light">Chci se připravit</a>
           <a href="jak-ucime.html" class="btn btn-ghost" style="border-color:#fff;color:#fff">Jak učíme →</a>
@@ -57,15 +79,15 @@
       <div class="container">
         <div class="blocks">
           <div class="block text reveal">
-            <h3>Vítejte u Červené pandy!</h3>
+            <h2>Vítejte u Červené pandy!</h2>
             <p>Nechcete nechat <strong>přijímací řízení na SŠ náhodě?</strong> A už vás také nebaví zastaralý styl výuky? <strong>Pak jste u nás na správném místě.</strong></p>
           </div>
           <div class="block photo reveal">
-            <img src="assets/img/hero.jpeg" alt="Skupina studentů kurzu">
+            <img src="assets/img/hero-640.webp" srcset="assets/img/hero-640.webp 640w, assets/img/hero.webp 1280w" sizes="(max-width:720px) 90vw, 560px" alt="Skupina studentů kurzu" width="640" height="427" loading="lazy" decoding="async">
           </div>
 
           <div class="block photo reveal">
-            <img src="assets/img/course-1.jpeg" alt="Individuální doučování">
+            <img src="assets/img/course-1.jpeg" alt="Individuální doučování" width="899" height="1350" loading="lazy" decoding="async">
           </div>
           <div class="block text reveal">
             <p>Během našich kurzů klademe <strong>maximální důraz na praxi.</strong> Kurz má až 50 hodin, během nichž žáci napíšou <strong>až 10 testů nanečisto.</strong> Díky této intenzivní přípravě a zkušenostem z reálných testů je u přijímací zkoušky <strong>nic nepřekvapí.</strong></p>
@@ -75,11 +97,11 @@
             <p>U nás učíme <strong>tak trochu „jinak“</strong> … Kromě klasického opakování učiva studenty 9. ročníku vedeme k tomu, <strong>jak nad testy správně přemýšlet,</strong> zrychlit postup a zaměřit se na <strong>detaily, které rozhodují o výsledku.</strong></p>
           </div>
           <div class="block photo reveal">
-            <img src="assets/img/teaching.jpeg" alt="Výuka v kurzu">
+            <img src="assets/img/teaching.jpeg" alt="Výuka v kurzu" width="900" height="1350" loading="lazy" decoding="async">
           </div>
 
           <div class="block photo reveal">
-            <img src="assets/img/course-2.jpeg" alt="Studenti při testech nanečisto">
+            <img src="assets/img/course-2.webp" alt="Studenti při testech nanečisto" width="900" height="1350" loading="lazy" decoding="async">
           </div>
           <div class="block text reveal">
             <p>Za poslední 3 roky se <strong>98 % našich studentů</strong> dostalo na svou střední školu.</p>
@@ -125,11 +147,11 @@
         </div>
         <div class="form-card reveal">
           <div class="cp-form">
-            <div class="cf-error" id="cfError">
+            <div class="cf-error" id="cfError" role="alert" aria-live="assertive">
               Omlouváme se, odeslání se nezdařilo. Zkuste to prosím znovu.
             </div>
 
-            <form id="poptavkaForm">
+            <form id="poptavkaForm" novalidate>
               <!-- Jméno -->
               <div class="cf-group">
                 <div class="cf-group-label">Jméno</div>
@@ -177,6 +199,12 @@
                           placeholder="Povězte nám například, o který z předmětů byste měli zájem"></textarea>
               </div>
 
+              <!-- honeypot — anti-spam (randomized name; never autofilled) -->
+              <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+                <label for="hp_confirm_482">Nevyplňujte</label>
+                <input type="text" id="hp_confirm_482" name="hp_confirm_482" tabindex="-1" autocomplete="off" aria-hidden="true" data-lpignore="true" data-form-type="other">
+              </div>
+
               <!-- Prioritní kontakt -->
               <div class="cf-priority-label">Prioritní kontakt</div>
               <div class="cf-priority-desc">
@@ -192,7 +220,7 @@
               <button type="submit" id="submitBtn">Odeslat</button>
             </form>
 
-            <div class="cf-success" id="cfSuccess">
+            <div class="cf-success" id="cfSuccess" role="status" aria-live="polite">
               <strong>Děkujeme, Vaši zprávu jsme zaregistrovali!</strong>
               Do 72 hodin Vám zavoláme a společně pro Vás vybereme ten nejlepší kurz.
             </div>
@@ -207,7 +235,7 @@
     <div class="container">
       <div class="footer-grid">
         <div>
-          <div class="brand"><img src="assets/img/logo.png" alt="Červená panda"></div>
+          <div class="brand"><img src="assets/img/logo.webp" alt="Červená panda" width="300" height="352" loading="lazy" decoding="async"></div>
           <p>Přípravné kurzy pro studenty 9. tříd. Doučujeme kombinaci češtiny a matematiky. Pojďte do toho s námi.</p>
         </div>
         <div>
@@ -242,6 +270,6 @@
     <a href="#kontakt" class="btn btn-light">Vyplnit nezávazný formulář</a>
   </div>
 
-  <script src="assets/js/script.js"></script>
+  <script src="assets/js/script.js" defer></script>
 </body>
 </html>
