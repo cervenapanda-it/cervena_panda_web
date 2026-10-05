@@ -13,6 +13,7 @@ ucitele.html               Učitelé
 assets/css/styles.css      Sdílené styly
 assets/js/script.js        Navigace, FAQ accordion, poptávkový formulář, animace
 assets/img/                Obrázky a logo
+assets/docs/               Právní dokumenty (VOP, GDPR) — linkované z patičky a formuláře
 ```
 
 ## Lokální spuštění
